@@ -16,11 +16,10 @@ namespace HierarchyHelper
 	{
 		#if UNITY_EDITOR
 		const string HELPER_IS_SHOWING = "HierarchyHelperSettingWindow.helper.showing";
+		const string HELPER_PRESERVED_WIDTH = "HierarchyHelperSettingWindow.helper.preservedWidth";
 
-		private static Dictionary<Type, List<MethodInfo>> _createdHelper = null;
 		private static Dictionary<MethodInfo,string> _categoryMap = null;
 		private static SortedList<int,List<MethodInfo>> _priorityMap = null;
-		private static float _preservedWidth = 200f;
 
 		public static SortedList<string,int> Categroies { get; private set; }
 		public static bool Showing
@@ -35,9 +34,20 @@ namespace HierarchyHelper
 			}
 		}
 
+		public static int PreservedWidth
+		{
+			get
+			{
+				return EditorPrefs.GetInt( HELPER_PRESERVED_WIDTH, 200 );
+			}
+			set
+			{
+				EditorPrefs.SetInt( HELPER_PRESERVED_WIDTH, value );
+			}
+		}
+
 		static HierarchyHelperManager()
 		{
-			_createdHelper = new Dictionary<Type, List<MethodInfo>>(); 
 			_priorityMap = new SortedList<int, List<MethodInfo>>();
 			_categoryMap = new Dictionary<MethodInfo, string>();
 			Categroies = new SortedList<string, int>();
@@ -48,10 +58,6 @@ namespace HierarchyHelper
 				object[] objs = m.GetCustomAttributes( typeof( HelperInfoAttribute ), false );
 				foreach( object obj in objs )
 				{
-					if( !_createdHelper.ContainsKey( m.DeclaringType ) )
-						_createdHelper[m.DeclaringType] = new List<MethodInfo>();
-					_createdHelper[m.DeclaringType].Add( m );
-
 					HelperInfoAttribute attr = obj as HelperInfoAttribute;
 
 					if( !_priorityMap.ContainsKey( attr.Priority ) )
@@ -66,7 +72,7 @@ namespace HierarchyHelper
 				}
 			}
 
-			if( _createdHelper.Count > 0 )
+			if( _categoryMap.Count > 0 )
 			{
 				EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
 			}
@@ -74,7 +80,7 @@ namespace HierarchyHelper
 
 		private static void OnHierarchyGUI( int instanceID, Rect r )
 		{
-			if( !Showing || Event.current.type != EventType.Repaint )
+			if( !Showing )
 				return;
 			
 			GameObject go = (GameObject)UnityEditor.EditorUtility.InstanceIDToObject( instanceID );
@@ -83,10 +89,10 @@ namespace HierarchyHelper
 				return;
 
 			_controlRect = r;
-			if( _controlRect.x <= _preservedWidth )
+			if( _controlRect.x <= PreservedWidth )
 			{
-				float diff = _preservedWidth - _controlRect.x;
-				_controlRect.x = _preservedWidth;
+				float diff = PreservedWidth - _controlRect.x;
+				_controlRect.x = PreservedWidth;
 				_controlRect.width -= diff;
 			}
 
@@ -134,9 +140,9 @@ namespace HierarchyHelper
 		}
 		#endif
 
-		#pragma warning disable CS0649
+		#pragma warning disable 0649
 		private static Rect _controlRect;
-		#pragma warning restore CS0649
+		#pragma warning restore 0649
 		public static Rect GetControlRect( float width )
 		{
 			if( _controlRect.width >= width )

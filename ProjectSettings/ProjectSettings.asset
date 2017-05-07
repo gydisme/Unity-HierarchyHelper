@@ -137,11 +137,11 @@ PlayerSettings:
   protectGraphicsMemory: 0
   useHDRDisplay: 0
   applicationIdentifier:
-    Android: com.Unity.assetbundle_demo
+    Android: com.Company.ProductName
     Standalone: unity.Unity.assetbundle_demo
-    Tizen: com.Unity.assetbundle_demo
-    iOS: com.Unity.assetbundle_demo
-    tvOS: com.Unity.assetbundle_demo
+    Tizen: com.Company.ProductName
+    iOS: com.Company.ProductName
+    tvOS: com.Company.ProductName
   buildNumber:
     iOS: 0
   AndroidBundleVersionCode: 1

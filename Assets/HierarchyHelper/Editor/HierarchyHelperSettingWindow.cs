@@ -24,6 +24,7 @@ namespace HierarchyHelper
 
 			EditorGUILayout.Space();
 			HierarchyHelperManager.Showing = EditorGUILayout.ToggleLeft( "Enable Helper System", HierarchyHelperManager.Showing );
+			HierarchyHelperManager.PreservedWidth = EditorGUILayout.IntSlider( "Preserved Width", HierarchyHelperManager.PreservedWidth, 100, 500 );
 			EditorGUILayout.Space();
 
 			EditorGUILayout.BeginHorizontal();
@@ -34,22 +35,25 @@ namespace HierarchyHelper
 			}
 			EditorGUILayout.EndHorizontal();
 
-			GUI.enabled = HierarchyHelperManager.Showing;
-			foreach( string c in HierarchyHelperManager.Categroies.Keys )
+			EditorGUI.BeginDisabledGroup( !HierarchyHelperManager.Showing );
 			{
-				EditorGUILayout.BeginHorizontal();
+				foreach( string c in HierarchyHelperManager.Categroies.Keys )
 				{
-					GUILayout.Label( HierarchyHelperManager.Categroies[c].ToString(), GUILayout.Width( 40f ) );
-
-					bool isOn = HierarchyHelperManager.GetShowing( c );
-					bool tempOn = EditorGUILayout.Toggle( c, isOn );
-					if( isOn != tempOn )
+					EditorGUILayout.BeginHorizontal();
 					{
-						HierarchyHelperManager.SetShowing( c, tempOn );
+						GUILayout.Label( HierarchyHelperManager.Categroies[c].ToString(), GUILayout.Width( 40f ) );
+
+						bool isOn = HierarchyHelperManager.GetShowing( c );
+						bool tempOn = EditorGUILayout.Toggle( c, isOn );
+						if( isOn != tempOn )
+						{
+							HierarchyHelperManager.SetShowing( c, tempOn );
+						}
 					}
+					EditorGUILayout.EndHorizontal();
 				}
-				EditorGUILayout.EndHorizontal();
 			}
+			EditorGUI.EndDisabledGroup();
 
 			if( GUI.changed )
 				EditorApplication.RepaintHierarchyWindow();
