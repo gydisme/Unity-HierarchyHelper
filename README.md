@@ -1,6 +1,7 @@
 Unity-HierarchyHelper
 =
 The fastest way to create Unity Hierarchy GUI items ever.
+![](http://i.imgur.com/cU2iwYG.png)
 ![](http://i.imgur.com/nPJcYNG.gif)
 
 - Author: Gyd Tseng
