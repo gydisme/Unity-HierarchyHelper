@@ -41,7 +41,7 @@ Use HierarchyHelperManager.GetControlRect( width ) to get the correct DrawRect f
 
 Examples
 ```
-Download and copy the folder Assets/Exmaples/ to your project.
+Download and copy the folder Assets/HierarchyHelperExmaples/ to your project.
 ```
 
 Support
