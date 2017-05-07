@@ -15,7 +15,7 @@ Download and copy the folder Assets/HierarchyHelper/ fto your project.
 
 QuickStart
 =
-Enable Hierarchy Helper Systme
+Enable Hierarchy Helper System
 ```
 1. press Tools/HierarchyHelper/Open Setting Window to open Setting Window
 2. toggle Enable Helper Sytem
