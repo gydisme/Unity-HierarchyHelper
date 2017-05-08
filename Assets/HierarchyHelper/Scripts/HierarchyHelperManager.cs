@@ -21,6 +21,8 @@ namespace HierarchyHelper
 		private static Dictionary<MethodInfo,string> _categoryMap = null;
 		private static SortedList<int,List<MethodInfo>> _priorityMap = null;
 
+		public static Func<GameObject,float> CalculateOffset = null;
+
 		public static SortedList<string,int> Categroies { get; private set; }
 		public static bool Showing
 		{
@@ -101,6 +103,9 @@ namespace HierarchyHelper
 				_controlRect.x = PreservedWidth;
 				_controlRect.width -= diff;
 			}
+
+			if( CalculateOffset != null )
+				_controlRect.width -= CalculateOffset( go );
 
 			foreach( int p in _priorityMap.Keys )
 			{

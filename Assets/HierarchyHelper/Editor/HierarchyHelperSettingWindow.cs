@@ -17,30 +17,36 @@ namespace HierarchyHelper
 			t.Show();
 		}
 			
-
+		Vector2 _scrollPosition = Vector2.zero;
 		void OnGUI()
 		{
 			GUI.changed = false;
 
 			EditorGUILayout.Space();
 			HierarchyHelperManager.Showing = EditorGUILayout.ToggleLeft( "Enable Helper System", HierarchyHelperManager.Showing );
-			HierarchyHelperManager.PreservedWidth = EditorGUILayout.IntSlider( "Preserved Width", HierarchyHelperManager.PreservedWidth, 100, 500 );
-			EditorGUILayout.Space();
-
-			EditorGUILayout.BeginHorizontal();
-			{
-				GUILayout.Label( "Used", GUILayout.Width( 40f ) );
-
-				EditorGUILayout.LabelField( "Categroy", "Showing" );
-			}
-			EditorGUILayout.EndHorizontal();
 
 			EditorGUI.BeginDisabledGroup( !HierarchyHelperManager.Showing );
 			{
+				HierarchyHelperManager.PreservedWidth = EditorGUILayout.IntSlider( "Preserved Width", HierarchyHelperManager.PreservedWidth, 100, 500 );
+				EditorGUILayout.Space();
+
+				EditorGUILayout.BeginHorizontal();
+				{
+					GUILayout.Label( "No.", GUILayout.Width( 40f ) );
+					GUILayout.Label( "Count", GUILayout.Width( 40f ) );
+
+					EditorGUILayout.LabelField( "Categroy", "Showing" );
+				}
+				EditorGUILayout.EndHorizontal();
+
+				_scrollPosition = EditorGUILayout.BeginScrollView( _scrollPosition );
+
+				int i=1;
 				foreach( string c in HierarchyHelperManager.Categroies.Keys )
 				{
 					EditorGUILayout.BeginHorizontal();
 					{
+						GUILayout.Label( i++.ToString(), GUILayout.Width( 40f ) );
 						GUILayout.Label( HierarchyHelperManager.Categroies[c].ToString(), GUILayout.Width( 40f ) );
 
 						bool isOn = HierarchyHelperManager.GetShowing( c );
@@ -54,6 +60,7 @@ namespace HierarchyHelper
 				}
 			}
 			EditorGUI.EndDisabledGroup();
+			EditorGUILayout.EndScrollView();
 
 			if( GUI.changed )
 				EditorApplication.RepaintHierarchyWindow();
