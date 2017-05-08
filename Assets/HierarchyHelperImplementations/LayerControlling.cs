@@ -28,6 +28,7 @@ namespace HierarchyHelper
 			if( newVisible != visible )
 			{
 				Tools.visibleLayers ^= 1 << obj.layer;
+				SceneView.RepaintAll();
 			}
 		}
 

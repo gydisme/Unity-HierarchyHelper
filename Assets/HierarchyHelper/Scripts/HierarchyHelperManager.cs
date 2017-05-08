@@ -51,24 +51,30 @@ namespace HierarchyHelper
 			_priorityMap = new SortedList<int, List<MethodInfo>>();
 			_categoryMap = new Dictionary<MethodInfo, string>();
 			Categroies = new SortedList<string, int>();
+			HashSet<string> _cache = new HashSet<string>();
 
 			List<MethodInfo> methods = FindMethodsWithAttribute<HelperInfoAttribute>().ToList();
 			foreach( MethodInfo m in methods )
 			{
-				object[] objs = m.GetCustomAttributes( typeof( HelperInfoAttribute ), false );
-				foreach( object obj in objs )
+				object[] objs = m.GetCustomAttributes( typeof( HelperInfoAttribute ), true );
+				string key = m.DeclaringType.ToString() + "." + m.Name;
+				if( !_cache.Contains( key ) )
 				{
-					HelperInfoAttribute attr = obj as HelperInfoAttribute;
+					_cache.Add( key );
 
-					if( !_priorityMap.ContainsKey( attr.Priority ) )
-						_priorityMap[attr.Priority] = new List<MethodInfo>();
-					_priorityMap[attr.Priority].Add( m );
+					foreach( object obj in objs )
+					{
+						HelperInfoAttribute attr = obj as HelperInfoAttribute;
+						if( !_priorityMap.ContainsKey( attr.Priority ) )
+							_priorityMap[attr.Priority] = new List<MethodInfo>();
+						_priorityMap[attr.Priority].Add( m );
 
-					_categoryMap[m] = attr.Category;
+						_categoryMap[m] = attr.Category;
 
-					if( !Categroies.ContainsKey( attr.Category ) )
-						Categroies[attr.Category] = 0;
-					Categroies[attr.Category]++;
+						if( !Categroies.ContainsKey( attr.Category ) )
+							Categroies[attr.Category] = 0;
+						Categroies[attr.Category]++;
+					}
 				}
 			}
 
@@ -125,7 +131,7 @@ namespace HierarchyHelper
 				.SelectMany(t => t.GetMethods())
 				.Where(m => m.GetCustomAttributes( typeof( T ), false).Length > 0)
 				.ToArray();
-
+			
 			return methods;
 		}
 
