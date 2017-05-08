@@ -12,7 +12,8 @@ The fastest way to create Unity Hierarchy GUI items ever.
 
 Installation
 =
-Download and copy the folder Assets/HierarchyHelper/ fto your project.
+Download and copy the folder Assets/HierarchyHelper/ to your project.
+(Optional) Download and copy the folder Assets/HierarchyHelperImplementations/ to your project.
 
 QuickStart
 =
@@ -42,6 +43,18 @@ Use HierarchyHelperManager.GetControlRect( width ) to get the correct DrawRect f
 Examples
 ```
 Download and copy the folder Assets/HierarchyHelperExmaples/ to your project.
+```
+
+FAQ
+```
+1. Why my helperUIs coverd each other?
+A: Use HierarchyHelperManager.GetControlRect( width ) to get the correct DrawRect to draw.
+
+2. How to prevent my helperUIs covered by plugin's hierarchy gui items?
+A: Assign HierarchyHelperManager.CalculateOffset and calculate how many offsets you need for them.
+
+3. Could I add more the one Draw method in one class?
+A: YES.
 ```
 
 Support
