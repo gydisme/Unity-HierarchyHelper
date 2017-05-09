@@ -28,6 +28,7 @@ namespace HierarchyHelper
 			EditorGUI.BeginDisabledGroup( !HierarchyHelperManager.Showing );
 			{
 				HierarchyHelperManager.PreservedWidth = EditorGUILayout.IntSlider( "Preserved Width", HierarchyHelperManager.PreservedWidth, 100, 500 );
+				HierarchyHelperManager.Spacing = EditorGUILayout.IntSlider( "Spacing", HierarchyHelperManager.Spacing, 0, 10 );
 				EditorGUILayout.Space();
 
 				EditorGUILayout.BeginHorizontal();

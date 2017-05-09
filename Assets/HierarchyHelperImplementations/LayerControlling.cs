@@ -8,7 +8,7 @@ using HierarchyHelper;
 
 public class LayerControlling
 {
-	[HelperInfoAttribute( "Layer Name", -997 )]
+	[HelperInfoAttribute( "Layer Name", 999 )]
 	public static void DrawLayerName( GameObject obj )
 	{
 		GUIContent layerName = new GUIContent( LayerMask.LayerToName( obj.layer ) );
@@ -22,7 +22,7 @@ public class LayerControlling
 	public static void DrawLayerVisible( GameObject obj )
 	{
 		bool visible = ( Tools.visibleLayers & 1 << obj.layer ) > 0;
-		Rect rect = HierarchyHelperManager.GetControlRect( 15f );
+		Rect rect = HierarchyHelperManager.GetControlRect( 10 );
 		bool newVisible = GUI.Toggle( rect, visible, new GUIContent( "", LayerMask.LayerToName( obj.layer ) ) , "VisibilityToggle" );
 		if( newVisible != visible )
 		{
@@ -36,16 +36,15 @@ public class LayerControlling
 	[HelperInfoAttribute( "Layer Control", -999 )]
 	public static void DrawLayerLock( GameObject obj )
 	{
-		bool locked = ( Tools.lockedLayers & 1 << obj.layer ) > 0;
-		Rect rect = HierarchyHelperManager.GetControlRect( 15f );
-		if( !locked )
+		if( _lockedTexture == null )
 		{
-			if( _lockedTexture == null )
-			{
-				_lockedTexture = Resources.Load( "buttonLock" ) as Texture2D;
-				_unlockedTexture = Resources.Load( "buttonUnlock" ) as Texture2D;
-			}
+			_lockedTexture = Resources.Load( "buttonLock" ) as Texture2D;
+			_unlockedTexture = Resources.Load( "buttonUnlock" ) as Texture2D;
 		}
+
+		bool locked = ( Tools.lockedLayers & 1 << obj.layer ) > 0;
+		Rect rect = HierarchyHelperManager.GetControlRect( 16f );
+
 		bool newLocked = GUI.Toggle( rect, locked, locked ? _lockedTexture :_unlockedTexture, new GUIStyle() );
 
 		if( newLocked != locked )

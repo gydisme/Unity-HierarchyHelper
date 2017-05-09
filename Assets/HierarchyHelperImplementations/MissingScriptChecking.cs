@@ -20,11 +20,9 @@ public class MissingScriptChecking
 			_greenTooltip = new GUIContent( string.Empty );
 		}
 		
-		Rect rect = HierarchyHelperManager.GetControlRect( 7 );
+		Rect rect = HierarchyHelperManager.GetControlRect( 4 );
 		rect.y += 1;
-		rect.x += 1;
 		rect.height -= 2;
-		rect.width -= 2;
 
 		Component[] allComponents = obj.GetComponentsInChildren<Component>( true );
 		bool found = false;
