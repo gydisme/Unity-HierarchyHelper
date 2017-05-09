@@ -6,24 +6,26 @@ using HierarchyHelper;
 
 public class MissingScriptChecking
 {
-	private static Texture2D _whiteTexture;
-	private static GUIContent _yellowContent;
-	private static GUIContent _redContent;
-	private static GUIContent _greenContent;
+	private static GUIContent _yellowTooltip;
+	private static GUIContent _redTooltip;
+	private static GUIContent _greenTooltip;
 
 	[HelperInfoAttribute( "Check Missing", -1000 )]
 	public static void DrawHelper( GameObject obj )
 	{
-		if( _whiteTexture == null )
+		if( _yellowTooltip == null )
 		{
-			_whiteTexture = new Texture2D( 5, 16 );
-			_yellowContent = new GUIContent( _whiteTexture, "Contains Missing Script(s) in Children" );
-			_redContent = new GUIContent( _whiteTexture, "Contains Missing Script(s)" );
-			_greenContent = new GUIContent( _whiteTexture );
+			_yellowTooltip = new GUIContent( string.Empty, "Contains Missing Script(s) in Children" );
+			_redTooltip = new GUIContent( string.Empty, "Contains Missing Script(s)" );
+			_greenTooltip = new GUIContent( string.Empty );
 		}
 		
-		Rect rect = HierarchyHelperManager.GetControlRect( 10 );
-		Color color = GUI.color;
+		Rect rect = HierarchyHelperManager.GetControlRect( 7 );
+		rect.y += 1;
+		rect.x += 1;
+		rect.height -= 2;
+		rect.width -= 2;
+
 		Component[] allComponents = obj.GetComponentsInChildren<Component>( true );
 		bool found = false;
 		bool isMissingOnThis = false;
@@ -44,9 +46,11 @@ public class MissingScriptChecking
 				break;
 			}
 		}
-		GUI.color = found ? isMissingOnThis ? Color.red : Color.yellow : Color.green;
-		GUI.Label( rect, found ? isMissingOnThis ? _redContent : _yellowContent : _greenContent );
-		GUI.color = color;
+
+		HierarchyHelperTools.DrawWithColor( found ? isMissingOnThis ? Color.red : Color.yellow : Color.green, ()=>{
+			GUI.DrawTexture( rect, HierarchyHelperTools.WhiteTexture, ScaleMode.StretchToFill, true );
+			GUI.Label( rect, found ? isMissingOnThis ? _redTooltip : _yellowTooltip : _greenTooltip );
+		});
 	}
 }
 #endif
