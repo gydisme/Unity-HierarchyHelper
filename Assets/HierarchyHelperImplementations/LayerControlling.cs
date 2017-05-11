@@ -45,9 +45,17 @@ public class LayerControlling
 		bool locked = ( Tools.lockedLayers & 1 << obj.layer ) > 0;
 		Rect rect = HierarchyHelperManager.GetControlRect( 16f );
 
-		bool newLocked = GUI.Toggle( rect, locked, locked ? _lockedTexture :_unlockedTexture, new GUIStyle() );
+		bool newLocked = locked;
 
-//		newLocked= GUI.Toggle( rect, locked, new GUIContent( "", LayerMask.LayerToName( obj.layer ) ), "IN LockButton" );
+		if( !locked )
+		{
+			HierarchyHelperTools.DrawWithColor( new Color(1f,1f,1f,0.25f), ()=>
+				newLocked = GUI.Toggle( rect, locked, new GUIContent( "", LayerMask.LayerToName( obj.layer ) ), "IN LockButton" ) );
+		}
+		else
+		{
+			newLocked = GUI.Toggle( rect, locked, new GUIContent( "", LayerMask.LayerToName( obj.layer ) ), "IN LockButton" );
+		}
 
 		if( newLocked != locked )
 		{
