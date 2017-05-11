@@ -15,6 +15,7 @@ Installation
 =
 Download and copy the folder Assets/HierarchyHelper/ to your project.
 (Optional) Download and copy the folder Assets/HierarchyHelperImplementations/ to your project.
+> **_Add issues if you wanna request new implementations_**
 
 QuickStart
 =

@@ -17,6 +17,7 @@ namespace HierarchyHelper
 		#if UNITY_EDITOR
 		const string HELPER_IS_SHOWING = "HierarchyHelperSettingWindow.helper.showing";
 		const string HELPER_PRESERVED_WIDTH = "HierarchyHelperSettingWindow.helper.preservedWidth";
+		const string HELPER_SPACING = "HierarchyHelperSettingWindow.helper.spacing";
 
 		private static Dictionary<MethodInfo,string> _categoryMap = null;
 		private static SortedList<int,List<MethodInfo>> _priorityMap = null;
@@ -33,6 +34,18 @@ namespace HierarchyHelper
 			set
 			{
 				EditorPrefs.SetBool( HELPER_IS_SHOWING, value );
+			}
+		}
+
+		public static int Spacing
+		{
+			get
+			{
+				return EditorPrefs.GetInt( HELPER_SPACING, 5 );
+			}
+			set
+			{
+				EditorPrefs.SetInt( HELPER_SPACING, value );
 			}
 		}
 
@@ -107,6 +120,8 @@ namespace HierarchyHelper
 			if( CalculateOffset != null )
 				_controlRect.width -= CalculateOffset( go );
 
+			_controlRect.width -= Spacing;
+
 			foreach( int p in _priorityMap.Keys )
 			{
 				foreach( MethodInfo m in _priorityMap[p] )
@@ -165,7 +180,10 @@ namespace HierarchyHelper
 				width = _controlRect.width;
 				_controlRect.width = 0;
 			}
-			return new Rect( _controlRect.x + _controlRect.width, _controlRect.y, width, _controlRect.height );
+			Rect rect = new Rect( _controlRect.x + _controlRect.width, _controlRect.y, width, _controlRect.height );
+			_controlRect.width -= Spacing;
+
+			return rect;
 		}
 	}
 }
