@@ -48,6 +48,8 @@ public class LayerControlling
 		}
 		bool newLocked = GUI.Toggle( rect, locked, locked ? _lockedTexture :_unlockedTexture, new GUIStyle() );
 
+//		newLocked= GUI.Toggle( rect, locked, new GUIContent( "", LayerMask.LayerToName( obj.layer ) ), "IN LockButton" );
+
 		if( newLocked != locked )
 		{
 			Tools.lockedLayers ^= 1 << obj.layer;
