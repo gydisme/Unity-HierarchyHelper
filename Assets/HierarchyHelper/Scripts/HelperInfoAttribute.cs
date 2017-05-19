@@ -11,7 +11,15 @@ namespace HierarchyHelper
 			this.Priority = priority;
 		}
 
-		public string Category { get; set; }
-		public int Priority { get; set; }
+		public HelperInfoAttribute( Type type, string category, int priority = 0 )
+		{
+			this.HelperType = type;
+			this.Category = category;
+			this.Priority = priority;
+		}
+
+		public Type HelperType { get; }
+		public string Category { get; }
+		public int Priority { get; }
 	}
 }

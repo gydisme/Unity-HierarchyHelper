@@ -12,7 +12,7 @@ public class LayerControlling
 	public static void DrawLayerName( GameObject obj )
 	{
 		GUIContent layerName = new GUIContent( LayerMask.LayerToName( obj.layer ) );
-		Vector2 size = GUI.skin.label.CalcSize( layerName );
+		Vector2 size = HierarchyHelperTools.GetContentSize( layerName );
 
 		Rect rect = HierarchyHelperManager.GetControlRect( size.x );
 		GUI.Label( rect, layerName );

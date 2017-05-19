@@ -19,7 +19,7 @@ namespace HierarchyHelper
 		const string HELPER_PRESERVED_WIDTH = "HierarchyHelperSettingWindow.helper.preservedWidth";
 		const string HELPER_SPACING = "HierarchyHelperSettingWindow.helper.spacing";
 
-		private static Dictionary<MethodInfo,string> _categoryMap = null;
+		private static Dictionary<MethodInfo,HelperInfoAttribute> _helperInfoMap = null;
 		private static SortedList<int,List<MethodInfo>> _priorityMap = null;
 
 		public static Func<GameObject,float> CalculateOffset = null;
@@ -64,7 +64,7 @@ namespace HierarchyHelper
 		static HierarchyHelperManager()
 		{
 			_priorityMap = new SortedList<int, List<MethodInfo>>();
-			_categoryMap = new Dictionary<MethodInfo, string>();
+			_helperInfoMap = new Dictionary<MethodInfo, HelperInfoAttribute>();
 			Categroies = new SortedList<string, int>();
 			HashSet<string> _cache = new HashSet<string>();
 
@@ -84,7 +84,7 @@ namespace HierarchyHelper
 							_priorityMap[attr.Priority] = new List<MethodInfo>();
 						_priorityMap[attr.Priority].Add( m );
 
-						_categoryMap[m] = attr.Category;
+						_helperInfoMap[m] = attr;
 
 						if( !Categroies.ContainsKey( attr.Category ) )
 							Categroies[attr.Category] = 0;
@@ -93,7 +93,7 @@ namespace HierarchyHelper
 				}
 			}
 
-			if( _categoryMap.Count > 0 )
+			if( _helperInfoMap.Count > 0 )
 			{
 				EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
 			}
@@ -126,13 +126,21 @@ namespace HierarchyHelper
 			{
 				foreach( MethodInfo m in _priorityMap[p] )
 				{
-					if( GetShowing( _categoryMap[m] ) )
+					if( GetShowing( _helperInfoMap[m].Category ) )
 					{
-						if( ( m.Attributes & MethodAttributes.Static ) == 0 )
+						if( ( m.Attributes & MethodAttributes.Static ) == 0  )
 						{
-							object obj = go.GetComponent( m.DeclaringType );
-							if( obj != null )
-								m.Invoke( obj, null );
+							object comp = go.GetComponent( m.DeclaringType );
+							if( !comp.Equals( null ) )
+								m.Invoke( comp, null );
+						}
+						else if( _helperInfoMap[m].HelperType != null )
+						{
+							object comp = go.GetComponent( _helperInfoMap[m].HelperType );
+							if( !comp.Equals( null ) )
+							{
+								m.Invoke( null, new object[]{ comp } );
+							}
 						}
 						else
 						{

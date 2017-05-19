@@ -29,5 +29,10 @@ namespace HierarchyHelper
 				GUI.color = c;
 			}
 		}
+
+		public static Vector2 GetContentSize( GUIContent c )
+		{
+			return GUI.skin.label.CalcSize( c );
+		}
 	}
 }
