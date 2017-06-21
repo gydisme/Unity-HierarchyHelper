@@ -31,17 +31,9 @@ public class LayerControlling
 		}
 	}
 
-	static Texture2D _lockedTexture = null;
-	static Texture2D _unlockedTexture = null;
 	[HelperInfoAttribute( "Layer Control", -999 )]
 	public static void DrawLayerLock( GameObject obj )
 	{
-		if( _lockedTexture == null )
-		{
-			_lockedTexture = Resources.Load( "buttonLock" ) as Texture2D;
-			_unlockedTexture = Resources.Load( "buttonUnlock" ) as Texture2D;
-		}
-
 		bool locked = ( Tools.lockedLayers & 1 << obj.layer ) > 0;
 		Rect rect = HierarchyHelperManager.GetControlRect( 16f );
 
