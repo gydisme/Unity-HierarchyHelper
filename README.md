@@ -3,8 +3,8 @@ Unity-HierarchyHelper
 The fastest way to create Unity Hierarchy GUI items ever.
 ![](http://i.imgur.com/nPJcYNG.gif)
 ![](https://i.imgur.com/oWhbFgi.png)
+![](http://i.imgur.com/4QC5t3b.png)
 ![](http://i.imgur.com/cU2iwYG.png)
-
 - Author: Gyd Tseng
 - Email: kingterrygyd@gmail.com
 - Twitter: @kingterrygyd
