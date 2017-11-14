@@ -10,7 +10,9 @@ public class GameObjectControlling
 	public static void DrawHelper( GameObject obj )
 	{
 		Rect rect = HierarchyHelperManager.GetControlRect( 10f );
-		obj.SetActive( GUI.Toggle( rect, obj.activeSelf, string.Empty ) );
+		bool active = GUI.Toggle( rect, obj.activeSelf, string.Empty );
+		if( GUI.changed )
+			obj.SetActive( active );
 	}
 }
 #endif
