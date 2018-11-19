@@ -51,10 +51,11 @@ namespace HierarchyHelper
 			}
 
 			EditorApplication.hierarchyWindowChanged += OnHierarchyChangeCheck;
-			#if Debug
+            ;
+#if Debug
 			OnHierarchyChnaged += OnHierarchyChange;
-			#endif
-		}
+#endif
+        }
 
 		static HierarchySnapshot CreateSnapshot( Transform t )
 		{
@@ -67,7 +68,9 @@ namespace HierarchyHelper
 
 		static void OnHierarchyChangeCheck()
 		{
-			bool found = false;
+            if( EditorApplication.isPlayingOrWillChangePlaymode) return;
+
+            bool found = false;
 			for( int i=0;i<_hierarchySnapshots.Count;)
 			{
 				HierarchySnapshot h = _hierarchySnapshots[i];
