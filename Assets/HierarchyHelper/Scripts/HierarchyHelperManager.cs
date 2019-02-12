@@ -172,7 +172,6 @@ namespace HierarchyHelper
 		{
 			EditorPrefs.SetBool( HELPER_IS_SHOWING + categroy, showing );
 		}
-		#endif
 
 		#pragma warning disable 0649
 		private static Rect _controlRect;
@@ -193,5 +192,7 @@ namespace HierarchyHelper
 
 			return rect;
 		}
+		
+		#endif
 	}
 }
