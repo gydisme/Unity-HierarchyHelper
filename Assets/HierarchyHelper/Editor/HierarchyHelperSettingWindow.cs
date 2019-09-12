@@ -56,7 +56,9 @@ namespace HierarchyHelper
 			GUI.changed = false;
 
 			EditorGUILayout.Space();
-			HierarchyHelperManager.Showing = EditorGUILayout.ToggleLeft( "Enable Helper System", HierarchyHelperManager.Showing );
+			var showing = EditorGUILayout.ToggleLeft( "Enable Helper System", HierarchyHelperManager.Showing );
+			if (showing != HierarchyHelperManager.Showing)
+				HierarchyHelperManager.Showing = showing;
 
 			EditorGUI.BeginDisabledGroup( !HierarchyHelperManager.Showing );
 			{

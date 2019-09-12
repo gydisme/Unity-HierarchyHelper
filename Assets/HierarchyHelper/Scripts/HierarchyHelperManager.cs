@@ -34,6 +34,10 @@ namespace HierarchyHelper
 			set
 			{
 				EditorPrefs.SetBool( HELPER_IS_SHOWING, value );
+				if( value )
+					EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
+				else
+					EditorApplication.hierarchyWindowItemOnGUI -= OnHierarchyGUI;
 			}
 		}
 
@@ -93,7 +97,7 @@ namespace HierarchyHelper
 				}
 			}
 
-			if( _helperInfoMap.Count > 0 )
+			if( _helperInfoMap.Count > 0 && Showing )
 			{
 				EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
 			}
