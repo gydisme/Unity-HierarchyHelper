@@ -10,7 +10,7 @@ public class MissingScriptChecking
 	private static GUIContent _redTooltip;
 	private static GUIContent _greenTooltip;
 
-	[HelperInfoAttribute( "Check Missing", -1000 )]
+	[HelperInfo( "Check Missing", -1000 )]
 	public static void DrawHelper( GameObject obj )
 	{
 		if( _yellowTooltip == null )

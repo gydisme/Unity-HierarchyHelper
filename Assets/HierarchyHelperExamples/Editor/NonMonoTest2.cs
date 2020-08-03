@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using HierarchyHelper;
 
-public class NonMonoTest1
+public static class NonMonoTest2
 {
-	[HelperInfoAttribute( "NonMonoTest1", 3)]
+	[HelperInfo( "NonMonoTest2", 0)]
 	public static void DrawHelper( GameObject obj )
 	{
-		Rect rect = HierarchyHelperManager.GetControlRect( 30f );
-		GUI.Label(rect, "N1");
+		Rect rect = HierarchyHelperManager.GetControlRect( 20f );
+		GUI.Label(rect, "N2");
 	}
 }

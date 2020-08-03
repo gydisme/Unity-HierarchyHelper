@@ -27,7 +27,7 @@ namespace HierarchyHelper
 			_priorityMap = new Dictionary<string, List<HelperInfoSetting>>();
 			_methodMap = new Dictionary<HelperInfoSetting, MethodInfo>();
 
-			List<MethodInfo> methods = HierarchyHelperManager.FindMethodsWithAttribute<HelperInfoSetting>().ToList();
+			var methods = HierarchyHelperManager.FindMethodsWithAttribute<HelperInfoSetting>();
 			foreach( MethodInfo m in methods )
 			{
 				object[] objs = m.GetCustomAttributes( typeof( HelperInfoSetting ), true );

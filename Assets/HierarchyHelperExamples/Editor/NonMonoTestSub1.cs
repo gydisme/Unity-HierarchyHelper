@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using HierarchyHelper;
 
-public class NonMonoTestSub1
+public static class NonMonoTestSub1
 {
-	static Texture2D t = null;
-	[HelperInfoAttribute( "NonMonoTest1", 1)]
+    static Texture2D t = null;
+	[HelperInfo( "NonMonoTest1", 1)]
 	public static void DrawHelper( GameObject obj )
 	{
 		if( t == null )
@@ -15,7 +15,7 @@ public class NonMonoTestSub1
 		GUI.Label( rect, t );
 	}
 
-	[HelperInfoAttribute( "NonMonoTest2", 2)]
+	[HelperInfo( "NonMonoTest2", 2)]
 	public static void DrawHelper2( GameObject obj )
 	{
 		if( t == null )

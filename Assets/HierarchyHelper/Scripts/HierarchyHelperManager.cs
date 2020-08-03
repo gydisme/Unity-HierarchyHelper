@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Reflection;
+using UnityEditor.Compilation;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -72,10 +73,10 @@ namespace HierarchyHelper
 			Categroies = new SortedList<string, int>();
 			HashSet<string> _cache = new HashSet<string>();
 
-			List<MethodInfo> methods = FindMethodsWithAttribute<HelperInfoAttribute>().ToList();
+			var methods = FindMethodsWithAttribute<HelperInfoAttribute>();
 			foreach( MethodInfo m in methods )
 			{
-				object[] objs = m.GetCustomAttributes( typeof( HelperInfoAttribute ), true );
+                object[] objs = m.GetCustomAttributes( typeof( HelperInfoAttribute ), true );
 				string key = m.DeclaringType.ToString() + "." + m.Name;
 				if( !_cache.Contains( key ) )
 				{
@@ -132,13 +133,7 @@ namespace HierarchyHelper
 				{
 					if( GetShowing( _helperInfoMap[m].Category ) )
 					{
-						if( ( m.Attributes & MethodAttributes.Static ) == 0  )
-						{
-							object comp = go.GetComponent( m.DeclaringType );
-							if( !comp.Equals( null ) )
-								m.Invoke( comp, null );
-						}
-						else if( _helperInfoMap[m].HelperType != null )
+						if( _helperInfoMap[m].HelperType != null )
 						{
 							object comp = go.GetComponent( _helperInfoMap[m].HelperType );
 							if( !comp.Equals( null ) )
@@ -155,16 +150,20 @@ namespace HierarchyHelper
 			}
 		}
 
-		public static MethodInfo[] FindMethodsWithAttribute<T>() where T:Attribute
+		public static IEnumerable<MemberInfo> FindMethodsWithAttribute<T>() where T:Attribute
 		{
-			Assembly assembly = System.Reflection.Assembly.GetAssembly( typeof(T) );
+			var editorAssemblies = CompilationPipeline.GetAssemblies(AssembliesType.Editor)
+                .Select(a => System.Reflection.Assembly.LoadFile(a.outputPath));
 
-			var methods = assembly.GetTypes()
-				.SelectMany(t => t.GetMethods())
-				.Where(m => m.GetCustomAttributes( typeof( T ), false).Length > 0)
-				.ToArray();
-			
-			return methods;
+            List<MethodInfo> result = new List<MethodInfo>();
+            foreach (var assembly in editorAssemblies)
+            {
+                result.AddRange(assembly.GetTypes()
+                .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                .Where(m => m.IsDefined(typeof(T), false)));
+            }
+
+			return result;
 		}
 
 		public static bool GetShowing( string categroy )

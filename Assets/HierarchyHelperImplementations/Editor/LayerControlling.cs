@@ -8,7 +8,7 @@ using HierarchyHelper;
 
 public class LayerControlling
 {
-	[HelperInfoAttribute( "Layer Name", 999 )]
+	[HelperInfo( "Layer Name", 999 )]
 	public static void DrawLayerName( GameObject obj )
 	{
 		GUIContent layerName = new GUIContent( LayerMask.LayerToName( obj.layer ) );
@@ -18,7 +18,7 @@ public class LayerControlling
 		GUI.Label( rect, layerName );
 	}
 
-	[HelperInfoAttribute( "Layer Control", -998 )]
+	[HelperInfo( "Layer Control", -998 )]
 	public static void DrawLayerVisible( GameObject obj )
 	{
 		bool visible = ( Tools.visibleLayers & 1 << obj.layer ) > 0;
@@ -31,7 +31,7 @@ public class LayerControlling
 		}
 	}
 
-	[HelperInfoAttribute( "Layer Control", -999 )]
+	[HelperInfo( "Layer Control", -999 )]
 	public static void DrawLayerLock( GameObject obj )
 	{
 		bool locked = ( Tools.lockedLayers & 1 << obj.layer ) > 0;
